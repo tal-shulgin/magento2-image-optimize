@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <body>
+        <referenceBlock name="page.title">
+            <action method="setTitleClass">
+                <argument name="class" xsi:type="string">complex</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Mageit\ImageOptimize\Block\Adminhtml\ProgressBar"
+                   name="mageitimageoptimizer_progress-bar"
+                   template="Mageit_ImageOptimize::grid/progressbar.phtml"/>
+
+            <uiComponent name="mageitimageoptimizer_image_grid"/>
+
+            <block class="Mageit\ImageOptimize\Block\Adminhtml\Image" name="mageitimageoptimizer_buttons"/>
+        </referenceContainer>
+    </body>
+</page>

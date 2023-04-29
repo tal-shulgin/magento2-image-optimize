@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="mageitimageoptimizer" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Image Optimizer</label>
+            <tab>mageit</tab>
+            <resource>Mageit_ImageOptimize::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to enable this module. Support image types: JPG, PNG, GIF, TIF, BMP</comment>
+                </field>
+                <field id="backup_image" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Image Backup</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Backup original image in var/backup_image directory</comment>
+                </field>
+            </group>
+
+            <group id="optimize_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Optimize Options</label>
+                <field id="image_quality" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Image Quality</label>
+                    <source_model>Mageit\ImageOptimize\Model\Config\Source\Quality</source_model>
+                    <comment><![CDATA[Specify optimization level for compression.
+                <br>Lossless is a filter that compresses the data. This does not reduce the quality but it will require the images to be uncompressed before they can be rendered.
+                <br>Custom (Lossy) is a filter that eliminates some of the data. This will degrade the image, so you’ll have to be careful of how much to reduce the image.
+                ]]></comment>
+                </field>
+
+                <field id="quality_percent" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Quality Percent</label>
+                    <validate>validate-no-empty validate-digits validate-greater-than-zero validate-digits-range digits-range-1-100</validate>
+                    <comment><![CDATA[The percent (%) of image quality after being optimized. Between 1 and 100. Default value is 92.
+                <br>For good image quality, please remain above 90. The higher quality percent, the lower compression level.
+                <br>This option supports only JPG images.</p>
+                ]]></comment>
+                    <depends>
+                        <field id="image_quality">custom</field>
+                    </depends>
+                </field>
+
+<!--                <field id="skip_transparent_img" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">-->
+<!--                    <label>Skip Transparent Images</label>-->
+<!--                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                </field>-->
+
+                <field id="force_permission" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Force File Permission</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Yes, you can assign access rights to the optimized image paths. For example: read a file, write a file.</comment>
+                </field>
+
+                <field id="select_permission" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Select Permission</label>
+                    <comment><![CDATA[Enter the number representing certain permission. Refer the list <a href="http://linuxcommand.org/lc3_lts0090.php" target="blank"> here</a><br>Example: 0775. Default: 0664.]]></comment>
+                    <validate>validate-no-empty validate-digits validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="force_permission">1</field>
+                    </depends>
+                </field>
+
+                <field id="use_custom_path" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Use Custom Paths</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gif" translate="label comment tooltip" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>GIF Utility</label>
+                    <tooltip><![CDATA[Do not include the .exe extension for Windows binaries.<br /><strong>Command line binaries only!</strong>]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="gif_path" translate="label comment tooltip" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>GIF Utility Exact Path</label>
+                    <comment>WARNING! Read the tooltip for more information.</comment>
+                    <tooltip><![CDATA[If utility you want to use is already installed on your server, you can specify exact path to it. When generating command this exact path to utility will be used and then "Utility Options" will be appended to it. Example:<br/>/usr/bin/gifsicle<br/>If your utility is added to your system path (which means it is accessible from every directory) then type only utility executable filename. If you do not want to use this option leave this field empty. (Do not leave any white space characters.)]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="gif_options" translate="label comment tooltip" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>GIF Utility Options</label>
+                    <comment>Options for optimization of .gif files.</comment>
+                    <tooltip><![CDATA[The <strong>%filepath%</strong> will be substituted with image file path by the extension.]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+
+                <field id="jpg" translate="label comment tooltip" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>JPG Utility</label>
+                    <comment>Optimization utility for .jpg files.</comment>
+                    <tooltip><![CDATA[Do not include the .exe extension for Windows binaries.<br /><strong>Command line binaries only!</strong>]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="jpg_path" translate="label comment tooltip" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>JPG Utility Exact Path</label>
+                    <comment>WARNING! Read the tooltip for more information.</comment>
+                    <tooltip><![CDATA[If utility you want to use is already installed on your server, you can specify exact path to it. When generating command this exact path to utility will be used and then "Utility Options" will be appended to it. Example:<br/>/usr/bin/jpegtran<br/>If your utility is added to your system path (which means it is accessible from every directory) then type only utility executable filename. If you do not want to use this option leave this field empty. (Do not leave any white space characters.)]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="jpg_options" translate="label comment tooltip" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>JPG Utility Options</label>
+                    <comment>Options for optimization of .jpg files.</comment>
+                    <tooltip><![CDATA[The <strong>%filepath%</strong> will be substituted with image file path by the extension.]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+
+                <field id="png" translate="label comment tooltip" type="text" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>PNG Utility</label>
+                    <comment>Optimization utility for .png files.</comment>
+                    <tooltip><![CDATA[Do not include the .exe extension for Windows binaries.<br /><strong>Command line binaries only!</strong>]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="png_path" translate="label comment tooltip" type="text" sortOrder="120" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>PNG Utility Exact Path</label>
+                    <comment>WARNING! Read the tooltip for more information.</comment>
+                    <tooltip><![CDATA[If utility you want to use is already installed on your server, you can specify exact path to it. When generating command this exact path to utility will be used and then "Utility Options" will be appended to it. Example:<br/>/usr/bin/optipng<br/>If your utility is added to your system path (which means it is accessible from every directory) then type only utility executable filename. If you do not want to use this option leave this field empty. (Do not leave any white space characters.)]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+                <field id="png_options" translate="label comment tooltip" type="text" sortOrder="130" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>PNG Utility Options</label>
+                    <comment>Options for optimization of .png files.</comment>
+                    <tooltip><![CDATA[The <strong>%filepath%</strong> will be substituted with image file path by the extension.]]></tooltip>
+                    <validate>validate-no-html-tags</validate>
+                    <depends>
+                        <field id="use_custom_path">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="image_directory" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Scan Directory</label>
+                <field id="include_directories" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Included Directories</label>
+                    <frontend_model>Mageit\ImageOptimize\Block\Adminhtml\Config\Field\Directories</frontend_model>
+                    <backend_model>Mageit\ImageOptimize\Model\Config\Backend\Paths</backend_model>
+                    <comment>If empty, extension will scan all magento directory, default directory is pub/media/</comment>
+                </field>
+
+                <field id="exclude_directories" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Excluded Directories</label>
+                    <frontend_model>Mageit\ImageOptimize\Block\Adminhtml\Config\Field\Directories</frontend_model>
+                    <backend_model>Mageit\ImageOptimize\Model\Config\Backend\Paths</backend_model>
+                </field>
+
+            </group>
+
+            <group id="cron_job" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cron Job</label>
+                <field id="enabled_scan" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Image Scan</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="scan_schedule" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Scan Schedule</label>
+                    <backend_model>Mageit\ImageOptimize\Model\Config\Backend\Cron\Schedule</backend_model>
+                    <validate>validate-no-empty</validate>
+                    <comment><![CDATA[<a href="https://www.mageplaza.com/faqs/how-configure-cronjob.html" target="blank">How to config cron</a>]]></comment>
+                    <depends>
+                        <field id="enabled_scan">1</field>
+                    </depends>
+                </field>
+
+                <field id="enabled_optimize" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Image Optimization</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="optimize_schedule" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Optimization Schedule</label>
+                    <backend_model>Mageit\ImageOptimize\Model\Config\Backend\Cron\Schedule</backend_model>
+                    <validate>validate-no-empty</validate>
+                    <depends>
+                        <field id="enabled_optimize">1</field>
+                    </depends>
+                </field>
+
+                <field id="batch_size" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Batch Size of Images</label>
+                    <comment>The number of images will be optimized during a process of running cronjob or command line. Too many images will take a long time to optimize.</comment>
+                    <validate>validate-no-empty validate-digits validate-greater-than-zero</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

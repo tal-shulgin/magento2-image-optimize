@@ -1,0 +1,40 @@
+{
+    "name": "mageit/module-imageoptimize",
+    "description": "Image Optimize",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Tal shulgin",
+            "email": "shulgin23@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-gd": "*",
+        "mageit/magento2-admin-base": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Mageit\\ImageOptimize\\": ""
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"mkdir( __DIR__ . '/../var/mageit/bin', 0700, true);\"",
+            "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/gifsicle',  __DIR__ . '/../var/mageit/bin/gifsicle');\"",
+            "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/guetzli',  __DIR__ . '/../var/mageit/bin/guetzli');\"",
+            "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/jpegoptim',  __DIR__ . '/../var/mageit/bin/jpegoptim');\"",
+            "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/jpegtran',  __DIR__ . '/../var/mageit/bin/jpegtran');\"",
+            "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/optipng',  __DIR__ . '/../var/mageit/bin/optipng');\"",
+            "php -r \"chmod( __DIR__ . '/../var/mageit/bin/gifsicle', 0777);\"",
+            "php -r \"chmod( __DIR__ . '/../var/mageit/bin/guetzli', 0777);\"",
+            "php -r \"chmod( __DIR__ . '/../var/mageit/bin/jpegoptim', 0777);\"",
+            "php -r \"chmod( __DIR__ . '/../var/mageit/bin/jpegtran', 0777);\"",
+            "php -r \"chmod( __DIR__ . '/../var/mageit/bin/optipng', 0777);\""
+        ]
+    }
+}

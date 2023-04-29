@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageit_ImageOptimize::manager"
+             title="Image Optimizer"
+             module="Mageit_ImageOptimize"
+             sortOrder="100"
+             resource="Mageit_ImageOptimize::manager"
+             parent="Mageit_AdminBase::base"/>
+
+        <add id="Mageit_ImageOptimize::grid"
+             title="Manage Images"
+             module="Mageit_ImageOptimize"
+             sortOrder="20"
+             parent="Mageit_ImageOptimize::manager"
+             action="mageitimageoptimizer/manageimages/index"
+             resource="Mageit_ImageOptimize::grid"/>
+
+        <add id="Mageit_ImageOptimize::configuration"
+             title="Configuration"
+             module="Mageit_ImageOptimize"
+             sortOrder="70"
+             parent="Mageit_ImageOptimize::manager"
+             action="adminhtml/system_config/edit/section/mageitimageoptimizer"
+             resource="Mageit_ImageOptimize::configuration"/>
+    </menu>
+</config>
