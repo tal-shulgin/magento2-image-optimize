@@ -6,7 +6,7 @@ use Mageit\ImageOptimize\Service\Image;
 
 class Pngquant extends BaseOptimizer
 {
-    public $binaryName = 'pngquant';
+    public string $binaryName = 'pngquant';
 
     public function canHandle(Image $image): bool
     {

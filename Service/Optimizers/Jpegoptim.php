@@ -6,7 +6,7 @@ use Mageit\ImageOptimize\Service\Image;
 
 class Jpegoptim extends BaseOptimizer
 {
-    public $binaryName = 'jpegoptim';
+    public string $binaryName = 'jpegoptim';
 
     public function canHandle(Image $image): bool
     {

@@ -6,7 +6,7 @@ use Mageit\ImageOptimize\Service\Image;
 
 class Optipng extends BaseOptimizer
 {
-    public $binaryName = 'optipng';
+    public string $binaryName = 'optipng';
 
     public function canHandle(Image $image): bool
     {

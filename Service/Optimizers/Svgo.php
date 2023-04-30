@@ -6,7 +6,7 @@ use Mageit\ImageOptimize\Service\Image;
 
 class Svgo extends BaseOptimizer
 {
-    public $binaryName = 'svgo';
+    public string $binaryName = 'svgo';
 
     public function canHandle(Image $image): bool
     {
