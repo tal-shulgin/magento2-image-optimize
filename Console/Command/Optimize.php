@@ -26,11 +26,11 @@ class Optimize extends Command
      * @param string|null       $name
      */
     public function __construct(
-       protected CollectionFactory $collectionFactory,
-       protected ResourceImage $resourceModel,
-       protected Data $helperData,
-       protected LoggerInterface $logger,
-       protected ?string $name = null
+        protected CollectionFactory $collectionFactory,
+        protected ResourceImage $resourceModel,
+        protected Data $helperData,
+        protected LoggerInterface $logger,
+        protected ?string $name = null
     ) {
         parent::__construct($name);
     }
@@ -67,7 +67,7 @@ class Optimize extends Command
                     'optimize_size' => isset($result['error']) ? null : $result['dest_size'],
                     'percent'       => isset($result['error']) ? null : $result['percent'],
                     'status'        => $this->getStatus($result),
-                    'message'       => $result['error_long'] ?? ''
+                    'message'       => $result['error_long'] ?? '',
                 ];
 
                 $image->addData($data);

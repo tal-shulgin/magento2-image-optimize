@@ -79,8 +79,9 @@ class Data extends Config
                 if (!$this->checkExcludeDirectory($file)) {
                     continue;
                 }
-                $pathInfo      = $this->getPathInfo(strtolower($file));
-                $extensionPath = $pathInfo['extension'] ?? false;
+//                $pathInfo      = $this->getPathInfo(strtolower($file));
+//                $extensionPath = $pathInfo['extension'] ?? false;
+                $extensionPath = explode('/', mime_content_type($file))[1];
 
                 if (!array_key_exists($file, $images)
                     && !in_array($file, $pathValues, true)
@@ -307,5 +308,4 @@ class Data extends Config
         $this->ioFile->checkAndCreateFolder('var/backup_image', 0o664);
         $this->ioFile->cp('pub/media/.htaccess', 'var/backup_image/.htaccess');
     }
-
 }
