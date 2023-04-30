@@ -41,6 +41,7 @@
             <argument name="name" xsi:type="string">mageit_imageoptimize_logger</argument>
             <argument name="handlers" xsi:type="array">
                 <item name="debug" xsi:type="object">Mageit\ImageOptimize\Logger\Handler</item>
+                <item name="info" xsi:type="object">Mageit\ImageOptimize\Logger\Handler</item>
             </argument>
         </arguments>
     </virtualType>
