@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "require": {
         "ext-gd": "*",
-        "mageit/magento2-admin-base": "*"
+        "mageit/module-admin-base": "*"
     },
     "autoload": {
         "files": [
