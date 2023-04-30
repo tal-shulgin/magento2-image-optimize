@@ -5,7 +5,7 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::stores">
-                    <resource id="Magit_AdminBase::base" title="Base">
+                    <resource id="Mageit_AdminBase::base">
                         <resource id="Mageit_ImageOptimize::manager" title="Mageit Image Optimizer" sortOrder="45">
                             <resource id="Mageit_ImageOptimize::grid" title="Manage Images" sortOrder="10"/>
                         </resource>
