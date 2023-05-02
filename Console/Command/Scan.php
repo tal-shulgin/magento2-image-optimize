@@ -47,19 +47,26 @@ class Scan extends Command
         }
 
         try {
-            $data = $this->helperData->scanFiles();
-            if (empty($data)) {
-                $message = "<info>". __('Sorry, no images are found after scan.') . "</info>";
-                $output->writeln($message);
 
-                return Cli::RETURN_FAILURE;
+            $files = $this->helperData->dirsToScan();
+            foreach (array_chunk($files, 500) as $filesChunk) {
+                $data = $this->helperData->scanFiles($filesChunk);
+                if (empty($data)) {
+                    $message = "<info>". __('Sorry, no images are found after scan.') . "</info>";
+                    $output->writeln($message);
+
+                    return Cli::RETURN_FAILURE;
+                }
+
+                $this->resourceModel->insertImagesData($data);
             }
-            $this->resourceModel->insertImagesData($data);
+
             $message = "<info>". __('Successful data scanning.') . "</info>";
             $output->writeln($message);
 
             return Cli::RETURN_SUCCESS;
-        } catch (Exception  $e) {$message = "<error>".
+        } catch (Exception  $e) {
+            $message = "<error>".
                 __('Something went wrong while scan images. Please review the error log.').
                 "</error>";
 

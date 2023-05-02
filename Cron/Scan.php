@@ -33,11 +33,15 @@ class Scan
         }
 
         try {
-            $data = $this->helperData->scanFiles();
-            if (empty($data)) {
-                return $this;
+            $files = $this->helperData->dirsToScan();
+            foreach (array_chunk($files, 500) as $filesChunk) {
+                $data = $this->helperData->scanFiles($filesChunk);
+                if (empty($data)) {
+                    continue;
+                }
+
+                $this->resourceModel->insertImagesData($data);
             }
-            $this->resourceModel->insertImagesData($data);
         } catch (Exception  $e) {
             $this->logger->critical($e->getMessage());
         }
