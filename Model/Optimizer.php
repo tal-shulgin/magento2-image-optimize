@@ -20,14 +20,13 @@ class Optimizer
         protected Config $configHelper,
         protected DirectoryList $directoryList,
         protected LoggerInterface $logger
-    ) {}
-
+    ) {
+    }
 
     public function getOptimizeConfig(string $type) :array
     {
         $options = $this->configHelper->getOptimizeOptions($type . "_options");
-        if (!empty($options))
-        {
+        if (!empty($options)) {
             return explode(" ", $options);
         }
 
@@ -59,11 +58,11 @@ class Optimizer
      */
     public function getOptimizeCustomPath(string $type): mixed
     {
-        if($this->configHelper->isUseCustomPaths() && $this->configHelper->getOptimizeOptions($type ."_path")) {
+        if ($this->configHelper->isUseCustomPaths() && $this->configHelper->getOptimizeOptions($type ."_path")) {
             return $this->configHelper->getOptimizeOptions($type ."_path");
         }
 
-        if($this->configHelper->isUseCustomPaths()) {
+        if ($this->configHelper->isUseCustomPaths()) {
             return $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) .
                 '/mageit/bin/' .
                 $this->configHelper->getOptimizeOptions($type);

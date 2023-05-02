@@ -48,15 +48,8 @@ class Data extends Config
         parent::__construct($context, $storeManager, $serialize);
     }
 
-    /**
-     * Scans Files.
-     *
-     * @return array
-     * @throws FileSystemException
-     */
-    public function scanFiles()
+    public function dirsToScan(): array
     {
-        $images             = [];
         $includePatterns    = ['jpeg', 'jpg', 'png', 'gif', 'webp'];
         $includeDirectories = $this->getIncludeDirectories();
         if (empty($includeDirectories)) {
@@ -70,23 +63,54 @@ class Data extends Config
         $collection = $this->collectionFactory->create();
         $pathValues = $collection->getColumnValues('path');
 
+        $returnFiles = [];
         foreach ($includeDirectories as $directory) {
-            if (!$this->checkDirectoryReadable($directory)) {
+            if (!$this->checkDirectoryReadable($directory)
+
+            ) {
                 continue;
             }
+
             $files = $this->driverFile->readDirectoryRecursively($directory);
             foreach ($files as $file) {
                 if (!$this->checkExcludeDirectory($file)) {
                     continue;
                 }
-//                $pathInfo      = $this->getPathInfo(strtolower($file));
-//                $extensionPath = $pathInfo['extension'] ?? false;
+
                 $extensionPath = explode('/', mime_content_type($file))[1];
 
-                if (!array_key_exists($file, $images)
-                    && !in_array($file, $pathValues, true)
+                if (!in_array($file, $pathValues, true)
                     && ($extensionPath && in_array($extensionPath, $includePatterns, true))
                 ) {
+                    $returnFiles[] = $file;
+                }
+            }
+        }
+
+        return $returnFiles;
+    }
+
+    /**
+     * Scans Files.
+     *
+     * @param array $files
+     *
+     * @return array
+     * @throws FileSystemException
+     */
+    public function scanFiles(array $files): array
+    {
+        $images             = [];
+
+        foreach (array_chunk($files, 500) as $fileChunk) {
+            foreach ($fileChunk as $file) {
+                if (!$this->checkExcludeDirectory($file)) {
+                    continue;
+                }
+
+                $extensionPath = explode('/', mime_content_type($file))[1];
+
+                if (!array_key_exists($file, $images)) {
                     $fileSize = $this->driverFile->stat($file)['size'];
                     if ($fileSize === 0) {
                         continue;
@@ -112,6 +136,7 @@ class Data extends Config
                 }
             }
         }
+        
         return array_values($images);
     }
 
