@@ -132,6 +132,6 @@ class ProgressBar extends Template
      */
     public function getImagePendingCollectionJsonEncode(): string
     {
-        return $this->toJson($this->getImagePendingCollection()->getItems());
+        return $this->toJson($this->getImagePendingCollection()->getItems()?? []);
     }
 }
