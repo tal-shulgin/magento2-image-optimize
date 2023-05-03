@@ -39,6 +39,12 @@ class Optimize extends Image
                     return $this->checkStatus($model, $resultRedirect, $isAjax);
                 }
             }
+
+            if (!$model->getData('path')) {
+                $this->messageManager->addErrorMessage(__("There is no Images to optimize"));
+                return $resultRedirect->setPath('*/*/');
+            }
+
             $result = $this->helperData->optimizeImage($model->getData('path'));
             $this->saveImage($model, $result);
             if ($isAjax) {
