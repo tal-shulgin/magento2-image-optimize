@@ -84,6 +84,10 @@ class Data extends Config
                 ) {
                     $returnFiles[] = $file;
                 }
+
+                if (count($returnFiles) >= 500) {
+                    return $returnFiles;
+                }
             }
         }
 
@@ -102,7 +106,7 @@ class Data extends Config
     {
         $images             = [];
 
-        foreach (array_chunk($files, 500) as $fileChunk) {
+        foreach (array_chunk($files, 100) as $fileChunk) {
             foreach ($fileChunk as $file) {
                 if (!$this->checkExcludeDirectory($file)) {
                     continue;
@@ -136,7 +140,7 @@ class Data extends Config
                 }
             }
         }
-        
+
         return array_values($images);
     }
 

@@ -52,21 +52,21 @@ class Action extends Column
                             self::URL_PATH_OPTIMIZE,
                             ['image_id' => $item['image_id']]
                         ),
-                        'label' => __('Optimize')
+                        'label' => __('Optimize'),
                     ];
                     $item[$name]['restore']  = [
                         'href'  => $this->urlBuilder->getUrl(
                             self::URL_PATH_RESTORE,
                             ['image_id' => $item['image_id']]
                         ),
-                        'label' => __('Restore')
+                        'label' => __('Restore'),
                     ];
                     $item[$name]['requeue']  = [
                         'href'  => $this->urlBuilder->getUrl(
                             self::URL_PATH_REQUEUE,
                             ['image_id' => $item['image_id']]
                         ),
-                        'label' => __('Requeue')
+                        'label' => __('Requeue'),
                     ];
                     $item[$name]['delete']   = [
                         'href'    => $this->urlBuilder->getUrl(
@@ -86,7 +86,7 @@ class Action extends Column
                             self::URL_PATH_SKIP,
                             ['image_id' => $item['image_id']]
                         ),
-                        'label' => __('Skip')
+                        'label' => __('Skip'),
                     ];
                 }
             }

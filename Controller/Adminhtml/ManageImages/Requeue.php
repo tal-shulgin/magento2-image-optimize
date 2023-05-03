@@ -32,7 +32,7 @@ class Requeue extends Image
             }
             $data = [
                 'status'  => Status::PENDING,
-                'message' => ''
+                'message' => '',
             ];
             $model->addData($data);
             $this->resourceModel->save($model);

@@ -40,14 +40,14 @@ class Restore extends Image
                     'status'        => Status::SKIPPED,
                     'optimize_size' => null,
                     'percent'       => null,
-                    'message'       => ''
+                    'message'       => '',
                 ]);
                 $this->resourceModel->save($model);
                 $this->messageManager->addSuccessMessage(__('The image has been successfully restored'));
             } else {
                 $model->addData([
                     'status'  => Status::ERROR,
-                    'message' => __('The file %1 is not writable', $model->getData('path'))
+                    'message' => __('The file %1 is not writable', $model->getData('path')),
                 ]);
                 $this->resourceModel->save($model);
                 $this->messageManager->addErrorMessage(__('The file %1 is not writable', $model->getData('path')));

@@ -21,13 +21,18 @@ class Scan extends Image
         }
 
         try {
-            $data = $this->helperData->scanFiles();
-            if (empty($data)) {
-                $this->messageManager->addErrorMessage(__('Sorry, no images are found after scan.'));
+            $files = $this->helperData->dirsToScan();
+            foreach (array_chunk($files, 500) as $filesChunk) {
+                $data = $this->helperData->scanFiles($filesChunk);
+                if (empty($data)) {
+                    $this->messageManager->addErrorMessage(__('Sorry, no images are found after scan.'));
 
-                return $resultRedirect->setPath('*/*/');
+                    return $resultRedirect->setPath('*/*/');
+                }
+
+                $this->resourceModel->insertImagesData($data);
             }
-            $this->resourceModel->insertImagesData($data);
+
             $this->messageManager->addSuccessMessage(__('Successful data scanning'));
         } catch (Exception  $e) {
             $this->messageManager->addErrorMessage(

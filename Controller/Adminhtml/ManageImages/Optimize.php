@@ -17,7 +17,7 @@ class Optimize extends Image
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $isAjax = $this->getRequest()->getParam('isAjax');
+        $isAjax = $this->getRequest()->getParam('isAjax', false);
         if (!$this->helperData->isEnabled() && !$isAjax) {
             return $this->isDisable($resultRedirect);
         }
@@ -46,14 +46,14 @@ class Optimize extends Image
                 if (isset($result['error'])) {
                     $resultJson->setData([
                         'status' => __('Error'),
-                        'path'   => $model->getData('path')
+                        'path'   => $model->getData('path'),
                     ]);
                     return $resultJson;
                 }
 
                 $resultJson->setData([
                     'status' => __('Success'),
-                    'path'   => $model->getData('path')
+                    'path'   => $model->getData('path'),
                 ]);
                 return $resultJson;
             }
@@ -63,7 +63,7 @@ class Optimize extends Image
                 $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
                 $resultJson->setData([
                     'status' => __('Error'),
-                    'path'   => $model->getData('path')
+                    'path'   => $model->getData('path'),
                 ]);
                 return $resultJson;
             }
@@ -87,7 +87,7 @@ class Optimize extends Image
             'optimize_size' => isset($result['error']) ? $model->getData('optimize_size') : $result['dest_size'],
             'percent'       => isset($result['error']) ? null : $result['percent'],
             'status'        => isset($result['error']) ? Status::ERROR : Status::SUCCESS,
-            'message'       => $result['error_long'] ?? ''
+            'message'       => $result['error_long'] ?? '',
         ];
         $model->addData($data);
         $this->resourceModel->save($model);
@@ -122,7 +122,7 @@ class Optimize extends Image
             if ($isAjax) {
                 $resultJson->setData([
                     'status' => __('Already optimized, please requeue to optimize again'),
-                    'path'   => $model->getData('path')
+                    'path'   => $model->getData('path'),
                 ]);
                 return $resultJson;
             }
@@ -135,7 +135,7 @@ class Optimize extends Image
             if ($isAjax) {
                 $resultJson->setData([
                     'status' => __('Skipped'),
-                    'path'   => $model->getData('path')
+                    'path'   => $model->getData('path'),
                 ]);
                 return $resultJson;
             }
@@ -147,7 +147,7 @@ class Optimize extends Image
         if ($isAjax) {
             $resultJson->setData([
                 'status' => __('Error'),
-                'path'   => $model->getData('path')
+                'path'   => $model->getData('path'),
             ]);
             return $resultJson;
         }
