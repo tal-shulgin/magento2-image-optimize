@@ -28,6 +28,7 @@ class Data extends Config
      *
      * @param Context               $context
      * @param StoreManagerInterface $storeManager
+     * @param DirectoryList         $dir
      * @param Json                  $serialize
      * @param Optimizer             $optimizer
      * @param DriverFile            $driverFile
@@ -38,6 +39,7 @@ class Data extends Config
     public function __construct(
         protected Context $context,
         protected StoreManagerInterface $storeManager,
+        protected DirectoryList $dir,
         protected Json $serialize,
         protected Optimizer $optimizer,
         protected DriverFile $driverFile,
@@ -244,8 +246,7 @@ class Data extends Config
             $optimizerChain->optimize($path);
             $fileSizeAfter = $this->driverFile->stat($path)['size'];
 
-            //$percentChange = (1 - $fileSizeBefore / $fileSizeAfter) * 100;
-            $percentChange = (int)(($fileSizeAfter * 100) / $fileSizeBefore);
+            $percentChange = abs(($fileSizeAfter - $fileSizeBefore) / $fileSizeBefore) * 100;
 
             $result['src_size']  = $fileSizeBefore;
             $result['dest_size'] = $fileSizeAfter;
@@ -306,14 +307,14 @@ class Data extends Config
     public function backupImage($path)
     {
         $pathInfo = $this->getPathInfo($path);
-        $folder   = 'var/backup_image/' . $pathInfo['dirname'];
+        $folder   = $this->dir->getPath('var') . '/backup_image/' . $pathInfo['dirname'];
         try {
-            $this->ioFile->checkAndCreateFolder($folder, 0o775);
+            $this->ioFile->checkAndCreateFolder($folder, 0775);
         } catch (Exception $e) {
             $this->_logger->critical($e->getMessage());
         }
-        if (!$this->fileExists('var/backup_image/' . $path)) {
-            $this->ioFile->write('var/backup_image/' . $path, $path, 0o664);
+        if (!$this->fileExists($this->dir->getPath('var') . '/backup_image/' . $path)) {
+            $this->ioFile->write($this->dir->getPath('var') .'/backup_image/' . $path, $path, 0664);
         }
     }
 
@@ -327,19 +328,12 @@ class Data extends Config
      */
     public function restoreImage($path): bool|int
     {
-        if (!$this->fileExists('var/backup_image/' . $path)) {
+        if (!$this->fileExists($this->dir->getPath('var') .'/backup_image/' . $path)) {
             throw new LocalizedException(__('Image %1 has not been backed up.', $path));
         }
 
-        return $this->ioFile->write($path, 'var/backup_image/' . $path);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function createHtaccessFile()
-    {
-        $this->ioFile->checkAndCreateFolder('var/backup_image', 0o664);
-        $this->ioFile->cp('pub/media/.htaccess', 'var/backup_image/.htaccess');
+        return $this->ioFile->write(
+            $this->dir->getRoot() . $path,
+            $this->dir->getPath('var') . '/backup_image/' . $path);
     }
 }
