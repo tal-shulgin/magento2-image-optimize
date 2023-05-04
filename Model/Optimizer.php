@@ -73,13 +73,24 @@ class Optimizer
 
     public function create(): OptimizerChain
     {
-        $jpg =  new Jpegoptim($this->getOptimizeConfig('jpg'));
+        $jpg =  new Jpegoptim([
+            '--max=85',
+            '--strip-all',
+            '--all-progressive',
+        ]);
         $jpg->setBinaryPath($this->getOptimizeCustomPath('jpg'));
 
-        $png = new Pngquant($this->getOptimizeConfig('png'));
+        $png = new Pngquant([
+            '--quality=85',
+            '--force',
+            '--skip-if-larger',
+        ]);
         $png->setBinaryPath($this->getOptimizeCustomPath('png'));
 
-        $gif = new Gifsicle($this->getOptimizeConfig('gif'));
+        $gif = new Gifsicle([
+            '-b',
+            '-O3',
+        ]);
         $gif->setBinaryPath($this->getOptimizeCustomPath('gif'));
 
         return (new OptimizerChain($this->logger))
@@ -92,7 +103,6 @@ class Optimizer
                 '-quiet',
             ]))
             ->addOptimizer(new Cwebp([
-                '-q 80',
                 '-m 6',
                 '-pass 10',
                 '-mt',

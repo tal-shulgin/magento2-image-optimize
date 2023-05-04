@@ -25,6 +25,7 @@
     "scripts": {
         "post-install-cmd": [
             "php -r \"mkdir( __DIR__ . '/../var/mageit/bin', 0700, true);\"",
+            "php -r \"mkdir( __DIR__ . '/../var/backup_image/', 0775, true);\"",
             "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/gifsicle',  __DIR__ . '/../var/mageit/bin/gifsicle');\"",
             "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/guetzli',  __DIR__ . '/../var/mageit/bin/guetzli');\"",
             "php -r \"copy( __DIR__ . '/mageit/module-imageoptimize/bin/jpegoptim',  __DIR__ . '/../var/mageit/bin/jpegoptim');\"",

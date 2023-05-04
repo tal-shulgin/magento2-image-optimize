@@ -236,6 +236,11 @@ class Data extends Config
         try {
             $optimizerChain = $this->optimizer->create();
             $fileSizeBefore = $this->driverFile->stat($path)['size'];
+
+            if ($this->isBackupEnabled()) {
+                $this->backupImage($path);
+            }
+
             $optimizerChain->optimize($path);
             $fileSizeAfter = $this->driverFile->stat($path)['size'];
 
