@@ -68,14 +68,16 @@ $collection = $block->getImagePendingCollection();
     <div id="mpimageoptimizer-modal-content"></div>
 </div>
 <div id="mpimageoptimizer-button-js"></div>
+<?php /*?>
 <script type="text/x-magento-init">
     {
         "#mpimageoptimizer-button-js": {
             "Mageit_ImageOptimize/js/grid/button/optimize":{
-                "isEnabled": "<?= /* @noEscape */ $block->isEnabled() ?>",
-                "url": "<?= /* @noEscape */ $block->getOptimizeUrl() ?>",
-                "collection": <?= /* @noEscape */ $block->getImagePendingCollectionJsonEncode() ?>
+                "isEnabled": "<?= $block->isEnabled() ?>",
+                "url": "<?=  $block->getOptimizeUrl() ?>",
+                "collection": <?=  $block->getImagePendingCollectionJsonEncode() ?>
             }
         }
     }
 </script>
+<?php */ ?>
