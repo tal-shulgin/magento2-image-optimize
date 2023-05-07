@@ -333,7 +333,7 @@ class Data extends Config
         }
 
         return $this->ioFile->write(
-            $this->dir->getRoot() . $path,
+            $this->dir->getRoot() . "/" . $path,
             $this->dir->getPath('var') . '/backup_image/' . $path);
     }
 }

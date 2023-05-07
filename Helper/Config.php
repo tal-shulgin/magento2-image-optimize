@@ -233,10 +233,13 @@ class Config extends AbstractHelper
 
     /**
      * Is use custom paths for optimizers.
+     *
      * @return bool
      */
     public function isUseCustomPaths(): bool
     {
-        return (bool)$this->getOptimizeOptions('use_custom_path') ?? false;
+        return $this->isFlagConfig(
+            $this->getPath('optimize_options', 'use_custom_path')
+        );
     }
 }
