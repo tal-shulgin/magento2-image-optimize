@@ -237,6 +237,6 @@ class Config extends AbstractHelper
      */
     public function isUseCustomPaths(): bool
     {
-        return $this->getOptimizeOptions('use_custom_path') ?? false;
+        return (bool)$this->getOptimizeOptions('use_custom_path') ?? false;
     }
 }
