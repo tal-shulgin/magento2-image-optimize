@@ -225,6 +225,7 @@ class Data extends Config
      */
     public function optimizeImage(string $path): mixed
     {
+        $path = $this->filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath() . $path;
         $result = [];
         if (!$this->fileExists($path)) {
             $result = [
@@ -266,7 +267,8 @@ class Data extends Config
      */
     public function fileExists(string $path): bool
     {
-        return $this->ioFile->fileExists($path);
+        return $this->driverFile->isExists($path);
+        //return $this->ioFile->fileExists($path);
     }
 
     /**
