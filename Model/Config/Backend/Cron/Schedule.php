@@ -18,12 +18,17 @@ class Schedule extends Value
     /**
      * Cron optimize path
      */
-    public const CRON_OPTIMIZE_PATH = 'crontab/default/jobs/mageitimageoptimizer_cronjob_optimize/schedule/cron_expr';
+    public const CRON_OPTIMIZE_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/schedule/cron_expr';
+
+    const CRON_OPTIMIZE_MODEL_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/run/model';
 
     /**
      * Cron scan path
      */
-    public const CRON_SCAN_PATH = 'crontab/default/jobs/mageitimageoptimizer_cronjob_scan/schedule/cron_expr';
+    public const CRON_SCAN_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_scan/schedule/cron_expr';
+
+    public const CRON_SCAN_MODEL_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_scan/run/model';
+    protected string $_runModelPath = "";
 
     /**
      * Schedule constructor.
@@ -65,10 +70,11 @@ class Schedule extends Value
     /**
      * @return Value
      */
-    public function afterSave()
+    public function afterSave(): Value
     {
         $enableScan       = $this->getData('groups/cron_job/fields/enabled_scan/value');
         $scanSchedule     = $this->getData('groups/cron_job/fields/scan_schedule/value');
+
         $enableOptimize   = $this->getData('groups/cron_job/fields/enabled_optimize/value');
         $optimizeSchedule = $this->getData('groups/cron_job/fields/optimize_schedule/value');
 
@@ -81,6 +87,14 @@ class Schedule extends Value
                     $scanSchedule
                 )->setPath(
                     self::CRON_SCAN_PATH
+                )->save();
+                $this->configValueFactory->create()->load(
+                    self::CRON_SCAN_MODEL_PATH,
+                    'path'
+                )->setValue(
+                    $this->_runModelPath
+                )->setPath(
+                    self::CRON_SCAN_MODEL_PATH
                 )->save();
             } catch (Exception $e) {
                 $this->messageManager->addErrorMessage(__('We can\'t save the cron expression. %1', $e->getMessage()));
@@ -96,6 +110,14 @@ class Schedule extends Value
                     $optimizeSchedule
                 )->setPath(
                     self::CRON_OPTIMIZE_PATH
+                )->save();
+                $this->configValueFactory->create()->load(
+                    self::CRON_OPTIMIZE_MODEL_PATH,
+                    'path'
+                )->setValue(
+                    $this->_runModelPath
+                )->setPath(
+                    self::CRON_OPTIMIZE_MODEL_PATH
                 )->save();
             } catch (Exception $e) {
                 $this->messageManager->addErrorMessage(__('We can\'t save the cron expression. %1', $e->getMessage()));

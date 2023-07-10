@@ -3,10 +3,14 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
         <job name="mageit_imageoptimizer_cronjob_optimize" instance="Mageit\ImageOptimize\Cron\Optimize" method="execute">
-            <config_path>crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/schedule/cron_expr</config_path>
+            <config_path>
+                mageitimageoptimizer/cron_job/optimize_schedule
+            </config_path>
         </job>
         <job name="mageit_imageoptimizer_cronjob_scan" instance="Mageit\ImageOptimize\Cron\Scan" method="execute">
-            <config_path>crontab/default/jobs/mageit_imageoptimizer_cronjob_scan/schedule/cron_expr</config_path>
+            <config_path>
+                mageitimageoptimizer/cron_job/scan_schedule
+            </config_path>
         </job>
     </group>
 </config>

@@ -75,7 +75,7 @@ class Optimizer
     {
         $jpg =  new Jpegoptim([
             '--max=85',
-            '--strip-all',
+           '--strip-all',
             '--all-progressive',
         ]);
         $jpg->setBinaryPath($this->getOptimizeCustomPath('jpg'));
