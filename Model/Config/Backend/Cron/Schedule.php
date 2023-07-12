@@ -3,15 +3,15 @@
 namespace Mageit\ImageOptimize\Model\Config\Backend\Cron;
 
 use Exception;
-use Magento\Framework\App\Cache\TypeListInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Registry;
+use Magento\Framework\Model\Context;
 use Magento\Framework\App\Config\Value;
 use Magento\Framework\App\Config\ValueFactory;
-use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Framework\Model\Context;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
-use Magento\Framework\Registry;
 
 class Schedule extends Value
 {
@@ -20,7 +20,7 @@ class Schedule extends Value
      */
     public const CRON_OPTIMIZE_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/schedule/cron_expr';
 
-    const CRON_OPTIMIZE_MODEL_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/run/model';
+    public const CRON_OPTIMIZE_MODEL_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_optimize/run/model';
 
     /**
      * Cron scan path
@@ -28,7 +28,13 @@ class Schedule extends Value
     public const CRON_SCAN_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_scan/schedule/cron_expr';
 
     public const CRON_SCAN_MODEL_PATH = 'crontab/default/jobs/mageit_imageoptimizer_cronjob_scan/run/model';
-    protected string $_runModelPath = "";
+
+    protected string $runModelPath = "";
+
+    /**
+     * @var ValueFactory
+     */
+    protected ValueFactory $configValueFactory;
 
     /**
      * Schedule constructor.
@@ -49,11 +55,11 @@ class Schedule extends Value
         Registry                   $registry,
         ScopeConfigInterface       $config,
         TypeListInterface          $cacheTypeList,
-        protected ValueFactory     $configValueFactory,
-        protected ManagerInterface $messageManager,
+        ValueFactory               $configValueFactory,
+        ManagerInterface           $messageManager,
         ?AbstractResource          $resource = null,
         ?AbstractDb                $resourceCollection = null,
-        protected string           $runModelPath = '',
+        string                     $runModelPath = '',
         array                      $data = []
     ) {
         parent::__construct(
@@ -65,10 +71,14 @@ class Schedule extends Value
             $resourceCollection,
             $data
         );
+
+        $this->runModelPath = $runModelPath;
+        $this->configValueFactory = $configValueFactory;
     }
 
     /**
      * @return Value
+     * @throws Exception
      */
     public function afterSave(): Value
     {
@@ -88,16 +98,17 @@ class Schedule extends Value
                 )->setPath(
                     self::CRON_SCAN_PATH
                 )->save();
+
                 $this->configValueFactory->create()->load(
                     self::CRON_SCAN_MODEL_PATH,
                     'path'
                 )->setValue(
-                    $this->_runModelPath
+                    $this->runModelPath
                 )->setPath(
                     self::CRON_SCAN_MODEL_PATH
                 )->save();
             } catch (Exception $e) {
-                $this->messageManager->addErrorMessage(__('We can\'t save the cron expression. %1', $e->getMessage()));
+                throw new \Exception(__('We can\'t save the cron expression. %1', $e->getMessage()));
             }
         }
 
@@ -111,16 +122,17 @@ class Schedule extends Value
                 )->setPath(
                     self::CRON_OPTIMIZE_PATH
                 )->save();
+
                 $this->configValueFactory->create()->load(
                     self::CRON_OPTIMIZE_MODEL_PATH,
                     'path'
                 )->setValue(
-                    $this->_runModelPath
+                    $this->runModelPath
                 )->setPath(
                     self::CRON_OPTIMIZE_MODEL_PATH
                 )->save();
             } catch (Exception $e) {
-                $this->messageManager->addErrorMessage(__('We can\'t save the cron expression. %1', $e->getMessage()));
+                throw new \Exception(__('We can\'t save the cron expression. %1', $e->getMessage()));
             }
         }
 
