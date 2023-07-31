@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <mageitimageoptimizer>
+        <mageiti_mageoptimizer>
             <general>
                 <enabled>1</enabled>
                 <backup_image>1</backup_image>
@@ -38,6 +38,6 @@
                 <optimize_schedule>10 * * * *</optimize_schedule>
                 <batch_size>100</batch_size>
             </cron_job>
-        </mageitimageoptimizer>
+        </mageiti_mageoptimizer>
     </default>
 </config>
