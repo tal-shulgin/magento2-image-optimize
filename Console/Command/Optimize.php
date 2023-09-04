@@ -129,7 +129,7 @@ class Optimize extends Command
     protected function configure()
     {
         $this->setName('mageit:imageoptimizer:optimize');
-        $this->setDescription(__('Image Optimizer optimize images.'));
+        $this->setDescription('Image Optimizer optimize images.');
 
         parent::configure();
     }

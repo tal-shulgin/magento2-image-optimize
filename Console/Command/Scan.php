@@ -83,7 +83,7 @@ class Scan extends Command
     protected function configure()
     {
         $this->setName('mageit:imageoptimizer:scan');
-        $this->setDescription(__('Image Optimizer scan images.'));
+        $this->setDescription('Image Optimizer scan images.');
         parent::configure();
     }
 }
